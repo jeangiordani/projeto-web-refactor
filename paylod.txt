@@ -1,0 +1,10 @@
+{
+	"dailyPrice": 200,
+	"color": "Vermelho",
+	"plate": "MCB9135",
+	"model": "Gol",
+	"brand": "Volkswagen",
+	"totalKm": 20000,
+	"yearDate": 2012,
+	"seats": 4,
+}
