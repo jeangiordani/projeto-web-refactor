@@ -37,7 +37,7 @@ public class Car implements Serializable {
     private Integer yearDate;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.AVAILABLE;
 
     private Integer seats;
 

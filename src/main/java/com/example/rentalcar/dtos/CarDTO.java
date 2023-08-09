@@ -2,9 +2,11 @@ package com.example.rentalcar.dtos;
 
 import com.example.rentalcar.entities.Car;
 import com.example.rentalcar.entities.Status;
+import jakarta.validation.constraints.NotNull;
 
 public class CarDTO extends CarInsertDTO {
 
+    @NotNull(message = "Campo status obrigatório")
     private Status status;
     private String image;
 
@@ -44,4 +46,6 @@ public class CarDTO extends CarInsertDTO {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+
 }

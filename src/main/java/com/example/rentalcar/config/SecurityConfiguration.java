@@ -5,6 +5,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -34,26 +35,28 @@ public class SecurityConfiguration {
     @Autowired
     private UserService userService;
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(request ->
-//                        request.requestMatchers(antMatcher("/auth/**")).permitAll()
-//                                .requestMatchers(antMatcher("/h2-console/**")).permitAll()
-//                                .anyRequest().authenticated())
-//                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-//                .authenticationProvider(authenticationProvider()).addFilterBefore(
-//                        exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class).addFilterBefore(
-//                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
-//    }
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        request ->
+                                request.requestMatchers(antMatcher(HttpMethod.GET, "/car/**")).permitAll()
+                                        .requestMatchers(antMatcher("/auth/**")).permitAll()
+                                        .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+                                        .anyRequest().authenticated()
+                ).sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider()).addFilterBefore(
+                        exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class
+                ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.csrf(AbstractHttpConfigurer::disable);
+//        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+//        return http.build();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

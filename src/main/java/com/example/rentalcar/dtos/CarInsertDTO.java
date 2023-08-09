@@ -1,6 +1,9 @@
 package com.example.rentalcar.dtos;
 
 import com.example.rentalcar.entities.Status;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.io.Serializable;
 
@@ -8,20 +11,27 @@ public class CarInsertDTO implements Serializable {
 
     private Long id;
 
+    @NotNull(message = "Campo preço obrigatório")
     private Double dailyPrice;
 
     private String color;
 
+    @NotBlank(message = "Campo placa obrigatório")
     private String plate;
 
+    @NotBlank(message = "Campo modelo obrigatório")
     private String model;
 
+    @NotBlank(message = "Campo fabricante obrigatório")
     private String brand;
 
+    @Positive(message = "Campo km obrigatório")
     private Integer totalKm;
 
+    @Positive(message = "Campo ano obrigatório e deve ser positivo")
     private Integer year;
 
+    @Positive(message = "Campo lugares obrigatório")
     private Integer seats;
 
     public CarInsertDTO() {

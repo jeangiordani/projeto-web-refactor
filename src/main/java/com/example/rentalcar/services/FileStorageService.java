@@ -1,21 +1,20 @@
 package com.example.rentalcar.services;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Arrays;
 
 
 @Service
@@ -30,8 +29,9 @@ public class FileStorageService {
     public String uploadImage(MultipartFile file){
 
         try {
+            String image = encodeFileToBase64Binary(file);
 
-            sendToServer(file);
+            return sendToServer(image);
         }catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class FileStorageService {
         return new String(encoded);
     }
 
-    private void sendToServer(MultipartFile file) throws IOException {
+    private String sendToServer(String file){
         String uri ="https://api.imgbb.com/1/upload";
         RestTemplate restTemplate = new RestTemplate();
 
@@ -63,7 +63,30 @@ public class FileStorageService {
 
         ResponseEntity<String> response = restTemplate.postForEntity(uri, entity, String.class);
 
-        System.out.println("Response code: " + response.getStatusCode());
+        if(response.getStatusCode().value() == 200){
+            String jsonBody = response.getBody();
+
+            return (String) convertFromJson(jsonBody).get("display_url");
+        }
+        return null;
+    }
+
+    private JSONObject convertFromJson(String json){
+        try {
+            JSONParser parser = new JSONParser();
+
+            Object obj = parser.parse(json);
+            JSONArray array = new JSONArray();
+            array.add(obj);
+
+            JSONObject jsonObj = (JSONObject)array.get(0);
+            return (JSONObject)jsonObj.get("data");
+        }catch (ParseException pe){
+            System.out.println("position: " + pe.getPosition());
+            System.out.println(pe);
+        }
+
+        return null;
     }
 
 }

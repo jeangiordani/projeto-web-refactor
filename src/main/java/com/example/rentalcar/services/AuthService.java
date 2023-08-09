@@ -7,15 +7,13 @@ import com.example.rentalcar.dtos.UserLoginDTO;
 import com.example.rentalcar.entities.Role;
 import com.example.rentalcar.entities.User;
 import com.example.rentalcar.exceptions.DataNotFoundException;
-import com.example.rentalcar.exceptions.UserExistsException;
+import com.example.rentalcar.exceptions.DataExistsException;
 import com.example.rentalcar.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 
 @Service
@@ -36,7 +34,7 @@ public class AuthService {
     public UserDTO register(UserInsertDTO dto){
         boolean userExists = userRepository.existsByEmailOrCpfOrCnh(dto.getEmail(), dto.getCpf(), dto.getCnh());
         if(userExists){
-            throw new UserExistsException("Usuário já existe");
+            throw new DataExistsException("Usuário já existe");
         }
 
         User user = userToUserDTO(dto);
