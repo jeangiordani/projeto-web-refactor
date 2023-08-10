@@ -48,6 +48,9 @@ public class User implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Rental> rentals;
+
     public User() {
 
     }

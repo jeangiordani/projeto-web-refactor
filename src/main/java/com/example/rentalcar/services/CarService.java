@@ -27,9 +27,6 @@ public class CarService {
     @Autowired
     private CarRepository carRepository;
 
-    @Autowired
-    private ModelMapper mapper;
-
     @Transactional(readOnly = true)
     public List<CarDTO> findAll(){
         List<Car> cars = carRepository.findAll();

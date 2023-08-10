@@ -69,4 +69,18 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.status(status).body(response);
     }
+
+    @ExceptionHandler(CarAlreadyRentedException.class)
+    public ResponseEntity<ErrorResponse> handleCarAlreadyRentedException(CarAlreadyRentedException e, HttpServletRequest request){
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        ErrorResponse response = new ErrorResponse();
+
+        response.setDescription("Carro indísponivel");
+        response.setMessage(e.getMessage());
+        response.setTimestamp(new Date());
+        response.setStatus(status.value());
+
+        return ResponseEntity.status(status).body(response);
+
+    }
 }
