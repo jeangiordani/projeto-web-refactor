@@ -28,7 +28,7 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<CarDTO> create(@Valid @RequestPart("car") CarInsertDTO dto, @RequestPart("image") MultipartFile file){
         String image = storageService.uploadImage(file);

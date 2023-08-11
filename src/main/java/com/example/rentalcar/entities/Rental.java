@@ -1,11 +1,11 @@
 package com.example.rentalcar.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,11 +19,11 @@ public class Rental implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "timestamp with timezone")
-    private LocalDate initialDate;
+    @Column(nullable = false)
+    private Date initialDate;
 
-    @Column(nullable = false, columnDefinition = "timestamp with timezone")
-    private LocalDate deliveryDate;
+    @Column(nullable = false)
+    private Date deliveryDate;
 
     @Column(nullable = false)
     private Double totalPrice;
@@ -39,7 +39,7 @@ public class Rental implements Serializable {
     public Rental() {
     }
 
-    public Rental(Long id, LocalDate initialDate, LocalDate deliveryDate, Double totalPrice, Car car, User user) {
+    public Rental(Long id, Date initialDate, Date deliveryDate, Double totalPrice, Car car, User user) {
         this.id = id;
         this.initialDate = initialDate;
         this.deliveryDate = deliveryDate;
@@ -57,19 +57,19 @@ public class Rental implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getInitialDate() {
+    public Date getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(LocalDate initialDate) {
+    public void setInitialDate(Date initialDate) {
         this.initialDate = initialDate;
     }
 
-    public LocalDate getDeliveryDate() {
+    public Date getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(LocalDate deliveryDate) {
+    public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,9 +58,6 @@ public class RentalService {
             Rental rental = new Rental();
             rental.setInitialDate(dto.getInitialDate());
 
-            System.out.println(dto.getInitialDate());
-//            System.out.println(formatStringToDate(dto.getInitialDate()));
-
             rental.setDeliveryDate(dto.getDeliveryDate());
             rental.setTotalPrice(dto.getTotalPrice());
             rental.setCar(car);
@@ -73,9 +71,36 @@ public class RentalService {
         }
     }
 
-    public String formatStringToDate(LocalDate date) throws ParseException {
-        String pattern = "dd-MM-yyyy";
-        SimpleDateFormat simpleDateFormat  = new SimpleDateFormat(pattern);
-        return simpleDateFormat.format(date);
+    public List<RentalDTO> findRentalByUser(Long id){
+        try {
+            User user = userRepository.getReferenceById(id);
+
+            List<Rental> rentals = rentalRepository.findAllByUser(user);
+
+            return rentals.stream().map(RentalDTO::new).collect(Collectors.toList());
+
+
+        }catch (EntityNotFoundException e){
+            throw new DataNotFoundException("Usuário não encontrado");
+        }
+
     }
+
+//    private Integer calculateTheDifferenceBetweenTwoDates(Date initialDate, Date deliveryDate){
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        try {
+//            Date data1 = sdf.parse(initialDate.toString());
+//            Date data2 = sdf.parse(deliveryDate.toString());
+//
+//
+//            long diffInMillies = Math.abs(data2.getTime() - data1.getTime());
+//            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+//
+//            return (int)diff;
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
 }

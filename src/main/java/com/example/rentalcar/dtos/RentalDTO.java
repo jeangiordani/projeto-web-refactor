@@ -1,25 +1,40 @@
 package com.example.rentalcar.dtos;
 
 import com.example.rentalcar.entities.Rental;
-import org.springframework.cglib.core.Local;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class RentalDTO implements Serializable {
 
     private Long id;
-    private LocalDate initialDate;
-    private LocalDate deliveryDate;
+
+    @NotNull(message = "Campo initialDate obrigátorio")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date initialDate;
+
+    @NotNull(message = "Campo deliveryDate obrigátorio")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date deliveryDate;
+
+    @NotNull(message = "Campo totalPrice obrigatório")
+    @Positive(message = "Campo totalPrice deve ser positivo")
     private Double totalPrice;
+
+    @NotNull(message = "Campo car obrigatório")
     private CarDTO car;
+
+    @NotNull(message = "Campo user obrigatório")
     private UserDTO user;
 
     public RentalDTO() {
     }
 
-    public RentalDTO(Long id, LocalDate initialDate, LocalDate deliveryDate, Double totalPrice, CarDTO car, UserDTO user) {
+    public RentalDTO(Long id, Date initialDate, Date deliveryDate, Double totalPrice, CarDTO car, UserDTO user) {
         this.id = id;
         this.initialDate = initialDate;
         this.deliveryDate = deliveryDate;
@@ -45,19 +60,19 @@ public class RentalDTO implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getInitialDate() {
+    public Date getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(LocalDate initialDate) {
+    public void setInitialDate(Date initialDate) {
         this.initialDate = initialDate;
     }
 
-    public LocalDate getDeliveryDate() {
+    public Date getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(LocalDate deliveryDate) {
+    public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 

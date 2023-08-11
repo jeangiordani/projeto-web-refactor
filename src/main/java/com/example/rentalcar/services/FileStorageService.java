@@ -82,7 +82,6 @@ public class FileStorageService {
             JSONObject jsonObj = (JSONObject)array.get(0);
             return (JSONObject)jsonObj.get("data");
         }catch (ParseException pe){
-            System.out.println("position: " + pe.getPosition());
             System.out.println(pe);
         }
 

@@ -2,6 +2,7 @@ package com.example.rentalcar.dtos;
 
 import com.example.rentalcar.entities.Role;
 import com.example.rentalcar.entities.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ import jakarta.validation.constraints.Pattern;
 import java.io.Serial;
 import java.io.Serializable;
 import java.text.DateFormat;
-import java.time.LocalDate;
+import java.util.Date;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -30,7 +31,9 @@ public class UserDTO implements Serializable {
     @NotBlank(message = "Campo obrigatório")
     @Email(message = "Email inválido")
     private String email;
-    private LocalDate birthday;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthday;
 
     @NotBlank(message = "Campo obrigatório")
     @Pattern(regexp = "(^(\\d{3}.\\d{3}.\\d{3}-\\d{2})|(\\d{11})$)", message = "CPF inválido")
@@ -44,7 +47,7 @@ public class UserDTO implements Serializable {
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String firstName, String lastName, String email, LocalDate birthday, String cpf, Integer cnh, Integer phoneNumber) {
+    public UserDTO(Long id, String firstName, String lastName, String email, Date birthday, String cpf, Integer cnh, Integer phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -99,14 +102,12 @@ public class UserDTO implements Serializable {
         this.email = email;
     }
 
-    public LocalDate getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
-        Locale LOCALE = Locale.ITALIAN;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy").withLocale(LOCALE);
-        this.birthday = LocalDate.parse(birthday, formatter);
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getCpf() {

@@ -11,27 +11,27 @@ public class CarInsertDTO implements Serializable {
 
     private Long id;
 
-    @NotNull(message = "Campo preço obrigatório")
+    @NotNull(message = "Campo dailyPrice obrigatório")
     private Double dailyPrice;
 
     private String color;
 
-    @NotBlank(message = "Campo placa obrigatório")
+    @NotBlank(message = "Campo plate obrigatório")
     private String plate;
 
-    @NotBlank(message = "Campo modelo obrigatório")
+    @NotBlank(message = "Campo model obrigatório")
     private String model;
 
-    @NotBlank(message = "Campo fabricante obrigatório")
+    @NotBlank(message = "Campo brand obrigatório")
     private String brand;
 
-    @Positive(message = "Campo km obrigatório")
+    @Positive(message = "Campo totalKm obrigatório")
     private Integer totalKm;
 
-    @Positive(message = "Campo ano obrigatório e deve ser positivo")
+    @Positive(message = "Campo year obrigatório e deve ser positivo")
     private Integer year;
 
-    @Positive(message = "Campo lugares obrigatório")
+    @Positive(message = "Campo seats obrigatório")
     private Integer seats;
 
     public CarInsertDTO() {

@@ -13,7 +13,6 @@ public class UserService implements UserDetailsService {
     private UserRepository repository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println(username);
         return repository.findByEmail(username).orElseThrow(
                 () -> new UsernameNotFoundException("Usuário não encontrado")
         );

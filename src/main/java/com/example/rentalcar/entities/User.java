@@ -2,13 +2,14 @@ package com.example.rentalcar.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,9 @@ public class User implements UserDetails, Serializable {
     @Column(nullable = false)
     private String password;
 
-    private LocalDate birthday;
+    @DateTimeFormat(pattern="dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthday;
 
     @Column(nullable = false, unique = true)
     private String cpf;
@@ -55,7 +58,7 @@ public class User implements UserDetails, Serializable {
 
     }
 
-    public User(Long id, String firstName, String lastName, String email, String password, LocalDate birthday, String cpf, Integer cnh, Integer phoneNumber, Role role) {
+    public User(Long id, String firstName, String lastName, String email, String password, Date birthday, String cpf, Integer cnh, Integer phoneNumber, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -114,11 +117,11 @@ public class User implements UserDetails, Serializable {
         this.password = password;
     }
 
-    public LocalDate getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
